@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Toggles</title>
+    <!-- Include Outfit font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif; /* Apply Outfit font */
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .item {
+            display: flex;
+            align-items: flex-start; /* Align items to the top */
+            gap: 10px;
+            padding: 8px 0;
+        }
+
+        .icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 24px;
+            height: 24px;
+            padding: 3px;
+        }
+
+        .icon div {
+            width: 18px;
+            height: 18px;
+        }
+
+        .text {
+            flex: 1;
+        }
+
+        .text-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: black;
+            line-height: 24px;
+            margin-bottom: 4px;
+        }
+
+        .text-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+            color: #757575;
+            line-height: 20px;
+        }
+
+        /* Toggle Styles */
+        .toggle {
+            width: 37px;
+            height: 20px;
+            background-color: #EEF1EF;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 2px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle.active {
+            background-color: #352BED;
+        }
+
+        .toggle-circle {
+            width: 16px;
+            height: 16px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .toggle.active .toggle-circle {
+            transform: translateX(20px);
+            box-shadow: -2px 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Button Styles */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 364px; /* Fixed button width */
+            padding: var(--sds-size-space-300, 12px);
+            gap: var(--sds-size-space-200, 8px);
+            background-color: #352BED;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 400;
+            font-family: Outfit;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background-color: #2c24c9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Color Item -->
+        <div class="item">
+          <img alt="Color" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE4LjgyMjIgNS4wNTIxOUMxNy4wMDY5IDMuMjU0NjIgMTQuNTU0NyAyLjI0NzM5IDEyIDIuMjUwMDFIMTEuODk5N0M5LjMzMTI1IDIuMjc2NDMgNi44NzY5OSAzLjMxNTMyIDUuMDcwMTUgNS4xNDA5NEMzLjI2MzMxIDYuOTY2NTYgMi4yNDk4NiA5LjQzMTQzIDIuMjUgMTJDMi4yNSAxNi4wMzEzIDQuNzQxODcgMTkuNDExOSA4Ljc1MjUgMjAuODI4NEM5LjIwNDg1IDIwLjk4NzkgOS42ODg4NSAyMS4wMzY2IDEwLjE2MzkgMjAuOTcwNEMxMC42MzkgMjAuOTA0MyAxMS4wOTEyIDIwLjcyNTIgMTEuNDgyOCAyMC40NDgxQzExLjg3NDMgMjAuMTcxMSAxMi4xOTM3IDE5LjgwNDIgMTIuNDE0MiAxOS4zNzgyQzEyLjYzNDcgMTguOTUyMyAxMi43NDk5IDE4LjQ3OTcgMTIuNzUgMThDMTIuNzUgMTcuNjAyMiAxMi45MDggMTcuMjIwNyAxMy4xODkzIDE2LjkzOTNDMTMuNDcwNiAxNi42NTggMTMuODUyMiAxNi41IDE0LjI1IDE2LjVIMTguNTgyMkMxOS4yNjI3IDE2LjUwMzMgMTkuOTIzOSAxNi4yNzM3IDIwLjQ1NTkgMTUuODQ5NUMyMC45ODggMTUuNDI1MiAyMS4zNTg5IDE0LjgzMTcgMjEuNTA3MiAxNC4xNjc1QzIxLjY3NDggMTMuNDI5NCAyMS43NTYzIDEyLjY3NDQgMjEuNzUgMTEuOTE3NUMyMS43NDA0IDEwLjYzNjQgMjEuNDc2NyA5LjM2OTg4IDIwLjk3NDIgOC4xOTE0MUMyMC40NzE2IDcuMDEyOTQgMTkuNzQwMSA1Ljk0NTkyIDE4LjgyMjIgNS4wNTIxOVpNNy44NzUgMTUuNzVDNy42NTI1IDE1Ljc1IDcuNDM0OTkgMTUuNjg0IDcuMjQ5OTggMTUuNTYwNEM3LjA2NDk4IDE1LjQzNjggNi45MjA3OCAxNS4yNjExIDYuODM1NjQgMTUuMDU1NUM2Ljc1MDQ5IDE0Ljg1IDYuNzI4MjEgMTQuNjIzOCA2Ljc3MTYyIDE0LjQwNTVDNi44MTUwMiAxNC4xODczIDYuOTIyMTcgMTMuOTg2OCA3LjA3OTUgMTMuODI5NUM3LjIzNjg0IDEzLjY3MjIgNy40MzcyOSAxMy41NjUgNy42NTU1MiAxMy41MjE2QzcuODczNzUgMTMuNDc4MiA4LjA5OTk1IDEzLjUwMDUgOC4zMDU1MiAxMy41ODU2QzguNTExMDkgMTMuNjcwOCA4LjY4Njc5IDEzLjgxNSA4LjgxMDQgMTRDOC45MzQwMiAxNC4xODUgOSAxNC40MDI1IDkgMTQuNjI1QzkgMTQuOTIzNCA4Ljg4MTQ3IDE1LjIwOTUgOC42NzA0OSAxNS40MjA1QzguNDU5NTIgMTUuNjMxNSA4LjE3MzM3IDE1Ljc1IDcuODc1IDE1Ljc1Wk03Ljg3NSAxMC41QzcuNjUyNSAxMC41IDcuNDM0OTkgMTAuNDM0IDcuMjQ5OTggMTAuMzEwNEM3LjA2NDk4IDEwLjE4NjggNi45MjA3OCAxMC4wMTExIDYuODM1NjQgOS44MDU1MkM2Ljc1MDQ5IDkuNTk5OTYgNi43MjgyMSA5LjM3Mzc2IDYuNzcxNjIgOS4xNTU1M0M2LjgxNTAyIDguOTM3MyA2LjkyMjE3IDguNzM2ODQgNy4wNzk1IDguNTc5NTFDNy4yMzY4NCA4LjQyMjE4IDcuNDM3MjkgOC4zMTUwMyA3LjY1NTUyIDguMjcxNjJDNy44NzM3NSA4LjIyODIxIDguMDk5OTUgOC4yNTA0OSA4LjMwNTUyIDguMzM1NjRDOC41MTEwOSA4LjQyMDc5IDguNjg2NzkgOC41NjQ5OCA4LjgxMDQgOC43NDk5OUM4LjkzNDAyIDguOTM0OTkgOSA5LjE1MjUgOSA5LjM3NTAxQzkgOS42NzMzNyA4Ljg4MTQ3IDkuOTU5NTIgOC42NzA0OSAxMC4xNzA1QzguNDU5NTIgMTAuMzgxNSA4LjE3MzM3IDEwLjUgNy44NzUgMTAuNVpNMTIgOC4yNTAwMUMxMS43Nzc1IDguMjUwMDEgMTEuNTYgOC4xODQwMyAxMS4zNzUgOC4wNjA0MUMxMS4xOSA3LjkzNjc5IDExLjA0NTggNy43NjEwOSAxMC45NjA2IDcuNTU1NTJDMTAuODc1NSA3LjM0OTk2IDEwLjg1MzIgNy4xMjM3NiAxMC44OTY2IDYuOTA1NTNDMTAuOTQgNi42ODczIDExLjA0NzIgNi40ODY4NCAxMS4yMDQ1IDYuMzI5NTFDMTEuMzYxOCA2LjE3MjE4IDExLjU2MjMgNi4wNjUwMyAxMS43ODA1IDYuMDIxNjJDMTEuOTk4OCA1Ljk3ODIxIDEyLjIyNSA2LjAwMDQ5IDEyLjQzMDUgNi4wODU2NEMxMi42MzYxIDYuMTcwNzkgMTIuODExOCA2LjMxNDk4IDEyLjkzNTQgNi40OTk5OUMxMy4wNTkgNi42ODQ5OSAxMy4xMjUgNi45MDI1IDEzLjEyNSA3LjEyNTAxQzEzLjEyNSA3LjQyMzM3IDEzLjAwNjUgNy43MDk1MiAxMi43OTU1IDcuOTIwNUMxMi41ODQ1IDguMTMxNDggMTIuMjk4NCA4LjI1MDAxIDEyIDguMjUwMDFaTTE2LjEyNSAxMC41QzE1LjkwMjUgMTAuNSAxNS42ODUgMTAuNDM0IDE1LjUgMTAuMzEwNEMxNS4zMTUgMTAuMTg2OCAxNS4xNzA4IDEwLjAxMTEgMTUuMDg1NiA5LjgwNTUyQzE1LjAwMDUgOS41OTk5NiAxNC45NzgyIDkuMzczNzYgMTUuMDIxNiA5LjE1NTUzQzE1LjA2NSA4LjkzNzMgMTUuMTcyMiA4LjczNjg0IDE1LjMyOTUgOC41Nzk1MUMxNS40ODY4IDguNDIyMTggMTUuNjg3MyA4LjMxNTAzIDE1LjkwNTUgOC4yNzE2MkMxNi4xMjM4IDguMjI4MjEgMTYuMzQ5OSA4LjI1MDQ5IDE2LjU1NTUgOC4zMzU2NEMxNi43NjExIDguNDIwNzkgMTYuOTM2OCA4LjU2NDk4IDE3LjA2MDQgOC43NDk5OUMxNy4xODQgOC45MzQ5OSAxNy4yNSA5LjE1MjUgMTcuMjUgOS4zNzUwMUMxNy4yNSA5LjY3MzM3IDE3LjEzMTUgOS45NTk1MiAxNi45MjA1IDEwLjE3MDVDMTYuNzA5NSAxMC4zODE1IDE2LjQyMzQgMTAuNSAxNi4xMjUgMTAuNVoiIGZpbGw9IiMzNTJCRUQiLz4KPC9zdmc+Cg==" />
+            <div class="text">
+                <div class="text-title">Color</div>
+                <div class="text-subtitle">Convert UI elements to grayscale</div>
+            </div>
+            <div class="toggle" onclick="toggleSwitch(this)">
+                <div class="toggle-circle"></div>
+            </div>
+        </div>
+
+        <!-- Typography Item -->
+        <div class="item">
+            <img alt="Typography" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE5LjUgM0g0LjVDNC4xMDIxOCAzIDMuNzIwNjQgMy4xNTgwNCAzLjQzOTM0IDMuNDM5MzRDMy4xNTgwNCAzLjcyMDY0IDMgNC4xMDIxOCAzIDQuNVYxOS41QzMgMTkuODk3OCAzLjE1ODA0IDIwLjI3OTQgMy40MzkzNCAyMC41NjA3QzMuNzIwNjQgMjAuODQyIDQuMTAyMTggMjEgNC41IDIxSDE5LjVDMTkuODk3OCAyMSAyMC4yNzk0IDIwLjg0MiAyMC41NjA3IDIwLjU2MDdDMjAuODQyIDIwLjI3OTQgMjEgMTkuODk3OCAyMSAxOS41VjQuNUMyMSA0LjEwMjE4IDIwLjg0MiAzLjcyMDY0IDIwLjU2MDcgMy40MzkzNEMyMC4yNzk0IDMuMTU4MDQgMTkuODk3OCAzIDE5LjUgM1pNMTcuMjUgOUMxNy4yNSA5LjE5ODkxIDE3LjE3MSA5LjM4OTY4IDE3LjAzMDMgOS41MzAzM0MxNi44ODk3IDkuNjcwOTggMTYuNjk4OSA5Ljc1IDE2LjUgOS43NUMxNi4zMDExIDkuNzUgMTYuMTEwMyA5LjY3MDk4IDE1Ljk2OTcgOS41MzAzM0MxNS44MjkgOS4zODk2OCAxNS43NSA5LjE5ODkxIDE1Ljc1IDlWOC4yNUgxMi43NVYxNi41SDEzLjg3NUMxNC4wNzM5IDE2LjUgMTQuMjY0NyAxNi41NzkgMTQuNDA1MyAxNi43MTk3QzE0LjU0NiAxNi44NjAzIDE0LjYyNSAxNy4wNTExIDE0LjYyNSAxNy4yNUMxNC42MjUgMTcuNDQ4OSAxNC41NDYgMTcuNjM5NyAxNC40MDUzIDE3Ljc4MDNDMTQuMjY0NyAxNy45MjEgMTQuMDczOSAxOCAxMy44NzUgMThIMTAuMTI1QzkuOTI2MDkgMTggOS43MzUzMiAxNy45MjEgOS41OTQ2NyAxNy43ODAzQzkuNDU0MDIgMTcuNjM5NyA5LjM3NSAxNy40NDg5IDkuMzc1IDE3LjI1QzkuMzc1IDE3LjA1MTEgOS40NTQwMiAxNi44NjAzIDkuNTk0NjcgMTYuNzE5N0M5LjczNTMyIDE2LjU3OSA5LjkyNjA5IDE2LjUgMTAuMTI1IDE2LjVIMTEuMjVWOC4yNUg4LjI1VjlDOC4yNSA5LjE5ODkxIDguMTcwOTggOS4zODk2OCA4LjAzMDMzIDkuNTMwMzNDNy44ODk2OCA5LjY3MDk4IDcuNjk4OTEgOS43NSA3LjUgOS43NUM3LjMwMTA5IDkuNzUgNy4xMTAzMiA5LjY3MDk4IDYuOTY5NjcgOS41MzAzM0M2LjgyOTAyIDkuMzg5NjggNi43NSA5LjE5ODkxIDYuNzUgOVY3LjVDNi43NSA3LjMwMTA5IDYuODI5MDIgNy4xMTAzMiA2Ljk2OTY3IDYuOTY5NjdDNy4xMTAzMiA2LjgyOTAyIDcuMzAxMDkgNi43NSA3LjUgNi43NUgxNi41QzE2LjY5ODkgNi43NSAxNi44ODk3IDYuODI5MDIgMTcuMDMwMyA2Ljk2OTY3QzE3LjE3MSA3LjExMDMyIDE3LjI1IDcuMzAxMDkgMTcuMjUgNy41VjlaIiBmaWxsPSIjRUQyNTY3Ii8+Cjwvc3ZnPgo=" />
+            <div class="text">
+                <div class="text-title">Typography</div>
+                <div class="text-subtitle">Preserve text and don’t convert into bars</div>
+            </div>
+            <div class="toggle active" onclick="toggleSwitch(this)">
+                <div class="toggle-circle"></div>
+            </div>
+        </div>
+
+        <!-- Image Item -->
+        <div class="item">
+            <img alt="Image" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwLjI1IDMuNzVIMy43NUMzLjM1MjE4IDMuNzUgMi45NzA2NCAzLjkwODA0IDIuNjg5MzQgNC4xODkzNEMyLjQwODA0IDQuNDcwNjQgMi4yNSA0Ljg1MjE4IDIuMjUgNS4yNVYxOC43NUMyLjI1IDE5LjE0NzggMi40MDgwNCAxOS41Mjk0IDIuNjg5MzQgMTkuODEwN0MyLjk3MDY0IDIwLjA5MiAzLjM1MjE4IDIwLjI1IDMuNzUgMjAuMjVIMjAuMjVDMjAuNjQ3OCAyMC4yNSAyMS4wMjk0IDIwLjA5MiAyMS4zMTA3IDE5LjgxMDdDMjEuNTkyIDE5LjUyOTQgMjEuNzUgMTkuMTQ3OCAyMS43NSAxOC43NVY1LjI1QzIxLjc1IDQuODUyMTggMjEuNTkyIDQuNDcwNjQgMjEuMzEwNyA0LjE4OTM0QzIxLjAyOTQgMy45MDgwNCAyMC42NDc4IDMuNzUgMjAuMjUgMy43NVpNMTQuNjI1IDguMjVDMTQuODQ3NSA4LjI1IDE1LjA2NSA4LjMxNTk4IDE1LjI1IDguNDM5NkMxNS40MzUgOC41NjMyMSAxNS41NzkyIDguNzM4OTEgMTUuNjY0NCA4Ljk0NDQ4QzE1Ljc0OTUgOS4xNTAwNSAxNS43NzE4IDkuMzc2MjUgMTUuNzI4NCA5LjU5NDQ4QzE1LjY4NSA5LjgxMjcxIDE1LjU3NzggMTAuMDEzMiAxNS40MjA1IDEwLjE3MDVDMTUuMjYzMiAxMC4zMjc4IDE1LjA2MjcgMTAuNDM1IDE0Ljg0NDUgMTAuNDc4NEMxNC42MjYyIDEwLjUyMTggMTQuNCAxMC40OTk1IDE0LjE5NDUgMTAuNDE0NEMxMy45ODg5IDEwLjMyOTIgMTMuODEzMiAxMC4xODUgMTMuNjg5NiAxMEMxMy41NjYgOS44MTUwMSAxMy41IDkuNTk3NSAxMy41IDkuMzc1QzEzLjUgOS4wNzY2MyAxMy42MTg1IDguNzkwNDggMTMuODI5NSA4LjU3OTVDMTQuMDQwNSA4LjM2ODUzIDE0LjMyNjYgOC4yNSAxNC42MjUgOC4yNVpNMjAuMjUgMTguNzVIMy43NVYxNS4wNjQ3TDguMDk0MzcgMTAuNzE5NEM4LjE2NDAzIDEwLjY0OTYgOC4yNDY3NSAxMC41OTQzIDguMzM3NzkgMTAuNTU2NkM4LjQyODg0IDEwLjUxODggOC41MjY0NCAxMC40OTk0IDguNjI1IDEwLjQ5OTRDOC43MjM1NiAxMC40OTk0IDguODIxMTYgMTAuNTE4OCA4LjkxMjIxIDEwLjU1NjZDOS4wMDMyNSAxMC41OTQzIDkuMDg1OTcgMTAuNjQ5NiA5LjE1NTYzIDEwLjcxOTRMMTUuNDY4OCAxNy4wMzA2QzE1LjYwOTUgMTcuMTcxNCAxNS44MDA0IDE3LjI1MDQgMTUuOTk5NCAxNy4yNTA0QzE2LjE5ODQgMTcuMjUwNCAxNi4zODkzIDE3LjE3MTQgMTYuNTMgMTcuMDMwNkMxNi42NzA3IDE2Ljg4OTkgMTYuNzQ5OCAxNi42OTkgMTYuNzQ5OCAxNi41QzE2Ljc0OTggMTYuMzAxIDE2LjY3MDcgMTYuMTEwMSAxNi41MyAxNS45Njk0TDE0Ljg3NDQgMTQuMzE0N0wxNi4yMTg4IDEyLjk2OTRDMTYuMzU5NCAxMi44Mjg4IDE2LjU1MDEgMTIuNzQ5OSAxNi43NDg5IDEyLjc0OTlDMTYuOTQ3NyAxMi43NDk5IDE3LjEzODQgMTIuODI4OCAxNy4yNzkxIDEyLjk2OTRMMjAuMjUgMTUuOTQ0MVYxOC43NVoiIGZpbGw9IiM1OEE5RjAiLz4KPC9zdmc+Cg==" />
+            <div class="text">
+                <div class="text-title">Image</div>
+                <div class="text-subtitle">Replace detailed images with simple placeholders</div>
+            </div>
+            <div class="toggle" onclick="toggleSwitch(this)">
+                <div class="toggle-circle"></div>
+            </div>
+        </div>
+
+        <!-- Icons Item -->
+        <div class="item">
+          <img alt="Icon" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE5LjUgOUMxOS44OTc4IDkgMjAuMjc5NCA4Ljg0MTk2IDIwLjU2MDcgOC41NjA2NkMyMC44NDIgOC4yNzkzNiAyMSA3Ljg5NzgyIDIxIDcuNVY0LjVDMjEgNC4xMDIxOCAyMC44NDIgMy43MjA2NCAyMC41NjA3IDMuNDM5MzRDMjAuMjc5NCAzLjE1ODA0IDE5Ljg5NzggMyAxOS41IDNIMTYuNUMxNi4xMDIyIDMgMTUuNzIwNiAzLjE1ODA0IDE1LjQzOTMgMy40MzkzNEMxNS4xNTggMy43MjA2NCAxNSA0LjEwMjE4IDE1IDQuNVY1LjI1SDlWNC41QzkgNC4xMDIxOCA4Ljg0MTk2IDMuNzIwNjQgOC41NjA2NiAzLjQzOTM0QzguMjc5MzYgMy4xNTgwNCA3Ljg5NzgyIDMgNy41IDNINC41QzQuMTAyMTggMyAzLjcyMDY0IDMuMTU4MDQgMy40MzkzNCAzLjQzOTM0QzMuMTU4MDQgMy43MjA2NCAzIDQuMTAyMTggMyA0LjVWNy41QzMgNy44OTc4MiAzLjE1ODA0IDguMjc5MzYgMy40MzkzNCA4LjU2MDY2QzMuNzIwNjQgOC44NDE5NiA0LjEwMjE4IDkgNC41IDlINS4yNVYxNUg0LjVDNC4xMDIxOCAxNSAzLjcyMDY0IDE1LjE1OCAzLjQzOTM0IDE1LjQzOTNDMy4xNTgwNCAxNS43MjA2IDMgMTYuMTAyMiAzIDE2LjVWMTkuNUMzIDE5Ljg5NzggMy4xNTgwNCAyMC4yNzk0IDMuNDM5MzQgMjAuNTYwN0MzLjcyMDY0IDIwLjg0MiA0LjEwMjE4IDIxIDQuNSAyMUg3LjVDNy44OTc4MiAyMSA4LjI3OTM2IDIwLjg0MiA4LjU2MDY2IDIwLjU2MDdDOC44NDE5NiAyMC4yNzk0IDkgMTkuODk3OCA5IDE5LjVWMTguNzVIMTVWMTkuNUMxNSAxOS44OTc4IDE1LjE1OCAyMC4yNzk0IDE1LjQzOTMgMjAuNTYwN0MxNS43MjA2IDIwLjg0MiAxNi4xMDIyIDIxIDE2LjUgMjFIMTkuNUMxOS44OTc4IDIxIDIwLjI3OTQgMjAuODQyIDIwLjU2MDcgMjAuNTYwN0MyMC44NDIgMjAuMjc5NCAyMSAxOS44OTc4IDIxIDE5LjVWMTYuNUMyMSAxNi4xMDIyIDIwLjg0MiAxNS43MjA2IDIwLjU2MDcgMTUuNDM5M0MyMC4yNzk0IDE1LjE1OCAxOS44OTc4IDE1IDE5LjUgMTVIMTguNzVWOUgxOS41Wk0xNy4yNSAxNUgxNi41QzE2LjEwMjIgMTUgMTUuNzIwNiAxNS4xNTggMTUuNDM5MyAxNS40MzkzQzE1LjE1OCAxNS43MjA2IDE1IDE2LjEwMjIgMTUgMTYuNVYxNy4yNUg5VjE2LjVDOSAxNi4xMDIyIDguODQxOTYgMTUuNzIwNiA4LjU2MDY2IDE1LjQzOTNDOC4yNzkzNiAxNS4xNTggNy44OTc4MiAxNSA3LjUgMTVINi43NVY5SDcuNUM3Ljg5NzgyIDkgOC4yNzkzNiA4Ljg0MTk2IDguNTYwNjYgOC41NjA2NkM4Ljg0MTk2IDguMjc5MzYgOSA3Ljg5NzgyIDkgNy41VjYuNzVIMTVWNy41QzE1IDcuODk3ODIgMTUuMTU4IDguMjc5MzYgMTUuNDM5MyA4LjU2MDY2QzE1LjcyMDYgOC44NDE5NiAxNi4xMDIyIDkgMTYuNSA5SDE3LjI1VjE1WiIgZmlsbD0iI0YwNUM1OCIvPgo8L3N2Zz4K" />
+            <div class="text">
+                <div class="text-title">Icons</div>
+                <div class="text-subtitle">Convert Icons into basic shapes and grayscale</div>
+            </div>
+            <div class="toggle" onclick="toggleSwitch(this)">
+                <div class="toggle-circle"></div>
+            </div>
+        </div>
+
+        <!-- Button at the Bottom -->
+        <div class="button-container">
+            <button class="button" onclick="alert('Frames Converted!')">Convert</button>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Functionality
+        function toggleSwitch(element) {
+            element.classList.toggle("active");
+        }
+    </script>
+</body>
+</html>
