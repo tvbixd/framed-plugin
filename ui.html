@@ -182,6 +182,29 @@
         function toggleSwitch(element) {
             element.classList.toggle("active");
         }
+
+        // Message handling
+        window.onmessage = event => {
+            console.log("Message received:", event.data.pluginMessage);
+            const msg = event.data.pluginMessage;
+            
+            if (msg.type === 'showEmptyState') {
+                console.log("Switching to empty state");
+                window.location.href = 'empty_state.html';
+            } else if (msg.type === 'switchUI') {
+                console.log("Frames received:", msg.frames);
+                document.querySelector('.message').textContent =
+                  `You have selected ${msg.frames.length} frame(s): ${msg.frames.map(frame => frame.name).join(", ")}`;
+            }
+        };
+
+        // Notify plugin that UI is ready
+        parent.postMessage({ pluginMessage: { type: 'ui-ready' } }, '*');
+
+        // Send a message to the plugin when done
+        setTimeout(() => {
+            parent.postMessage({ pluginMessage: { type: 'done' } }, '*');
+        }, 5000); // Simulate a delay before closing
     </script>
 </body>
 </html>

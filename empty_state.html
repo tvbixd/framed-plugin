@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centered Empty State</title>
-  <!-- Google Fonts: Outfit -->
+  <title>Empty State</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400&display=swap" rel="stylesheet">
   <style>
-    /* General Reset */
     * {
       margin: 0;
       padding: 0;
@@ -20,7 +18,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #f0f0f0; /* Light background for better visibility */
+      background-color: #f0f0f0;
     }
 
     .center-content {
@@ -33,7 +31,7 @@
     .cursor-icon {
       width: 24px;
       height: 24px;
-      margin-bottom: 4px; /* Adjusted margin */
+      margin-bottom: 4px;
     }
 
     .message {
@@ -57,5 +55,17 @@
     </div>
     <div class="message">Select up to 5 Frames or Elements<br>to Get started</div>
   </div>
+
+  <script>
+    // Listen for messages from the plugin code
+    window.onmessage = event => {
+      console.log("Message received:", event.data.pluginMessage);
+      const msg = event.data.pluginMessage;
+      if (msg.type === 'switchUI') {
+        console.log("Switching to UI");
+        window.location.href = 'ui.html';
+      }
+    };
+  </script>
 </body>
 </html>

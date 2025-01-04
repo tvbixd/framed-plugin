@@ -1,37 +1,50 @@
-// This plugin will open a window to prompt the user to select up to 5 frames, and
-// it will then turn those frames to lo-fi based on the checked inputs.
+// Show initial UI
+figma.showUI(__html__, { 
+  width: 340, 
+  height: 500,
+  themeColors: true
+});
 
-// This file holds the main code for plugins. Code in this file has access to
-// the *figma document* via the figma global object.
-// You can access browser APIs in the <script> tag inside "ui.html" which has a
-// full browser environment (See https://www.figma.com/plugin-docs/how-plugins-run).
+// Track selected frames
+let selectedFrameIds = new Set();
 
-// This shows the HTML page in "ui.html".
-figma.showUI(__html__, { width: 340, height: 500 });
+// Event: Listen for selection changes
+figma.on('selectionchange', () => {
+  const selectedNodes = figma.currentPage.selection;
+  const selectedFrames = selectedNodes.filter(node => node.type === 'FRAME');
 
-// Calls to "parent.postMessage" from within the HTML page will trigger this
-// callback. The callback will be passed the "pluginMessage" property of the
-// posted message.
-figma.ui.onmessage =  (msg: {type: string, count: number}) => {
-  // One way of distinguishing between different types of messages sent from
-  // your HTML page is to use an object with a "type" property like this.
-  if (msg.type === 'create-shapes') {
-    // This plugin creates rectangles on the screen.
-    const numberOfRectangles = msg.count;
-
-    const nodes: SceneNode[] = [];
-    for (let i = 0; i < numberOfRectangles; i++) {
-      const rect = figma.createRectangle();
-      rect.x = i * 150;
-      rect.fills = [{ type: 'SOLID', color: { r: 1, g: 0.5, b: 0 } }];
-      figma.currentPage.appendChild(rect);
-      nodes.push(rect);
-    }
-    figma.currentPage.selection = nodes;
-    figma.viewport.scrollAndZoomIntoView(nodes);
+  // Clear selection if no frames
+  if (selectedFrames.length === 0) {
+    selectedFrameIds.clear();
+    figma.notify("No frames selected. Please select a frame.");
+    figma.ui.postMessage({ 
+      type: "showEmptyState"
+    });
+    console.log("No frames selected. Sent showEmptyState message.");
+    return;
   }
 
-  // Make sure to close the plugin when you're done. Otherwise the plugin will
-  // keep running, which shows the cancel button at the bottom of the screen.
-  figma.closePlugin();
+  // Handle max selection limit
+  if (selectedFrames.length > 5) {
+    figma.notify("You can only select up to 5 frames.");
+    return;
+  }
+
+  // Update selected frames and switch to UI view
+  selectedFrameIds = new Set(selectedFrames.map(frame => frame.id));
+  figma.ui.postMessage({ 
+    type: "switchUI",
+    frames: selectedFrames.map(frame => ({
+      id: frame.id,
+      name: frame.name
+    }))
+  });
+  console.log("Frames selected. Sent switchUI message with frames:", selectedFrames.map(frame => frame.name));
+});
+
+// Listen for messages from UI
+figma.ui.onmessage = msg => {
+  if (msg.type === 'done') {
+    figma.closePlugin();
+  }
 };
